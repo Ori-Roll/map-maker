@@ -1,38 +1,46 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./App.css";
 import { calcObjectsDistance, calcPointHeight } from "./helpers";
-import { mtnShape } from "./shapes";
+import { mtnShape, mtnRangeShape } from "./shapes";
 
 const canvasSize = { width: "1000", height: "1000" };
-const mtnRanges = [];
+const mtnRanges = []; // RENAME THIS TO "elevation"
 const mountains = [];
 
 function App() {
 	const canvas = useRef(null);
+	const mtnsAmount = 10; // APROX 1-30
+	const heightFactor = 1.2; // APROX 0-2
+	const mtnsHeight = mtnsAmount / 20 + heightFactor;
 
 	function makeCanvas(canvasRef) {
 		console.log("canvasRef is: ", canvasRef);
 		const ctx = canvasRef.current.getContext("2d");
 
-		for (let i = 0; i < (canvasSize.width * canvasSize.height) / 80000; i++) {
+		for (let i = 0; i < (canvasSize.width * canvasSize.height) / ((1 / mtnsAmount) * 100000); i++) {
 			mtnRanges.push({
 				x: Math.random() * canvasSize.width,
 				y: Math.random() * canvasSize.height,
-				height: Math.random() * 10 + 15,
-				spread: Math.random() * 120 + 60,
+
+				spread: Math.random() * 160 + 40,
 				key: i
 			});
 			mtnRanges[i].z = Math.floor(mtnRanges[i].y);
+			mtnRanges[i].height =
+				(Math.random() + 0.5) * mtnsHeight * (mtnRanges[i].spread / 10) +
+				Math.random() * mtnsHeight +
+				3;
 		}
+		console.log(mtnRanges);
 
-		for (let j = 0; j < (canvasSize.width * canvasSize.height) / 4000; j++) {
+		for (let j = 0; j < (canvasSize.width * canvasSize.height) / 15000; j++) {
 			const proposedMtnX = Math.random() * canvasSize.width;
 			const proposedMtnY = Math.random() * canvasSize.height;
 			const pointHeight = calcPointHeight({ x: proposedMtnX, y: proposedMtnY }, mtnRanges);
-			const mtnProbability = pointHeight.pointGroundHeight + (Math.random() + 0.2);
-			console.log("mtn probability: " + mtnProbability);
+			const mtnProbability = pointHeight.pointGroundHeight; /* + (Math.random() + 0.2) */
+			/* console.log("mtn probability: " + mtnProbability); */
 
-			if (mtnProbability > 2.5) {
+			if (mtnProbability > 45) {
 				mountains.push({
 					x: proposedMtnX,
 					y: proposedMtnY,
@@ -41,12 +49,13 @@ function App() {
 					keyOfMtnRange: pointHeight.pointIsOnMtnKey,
 					key: j
 				});
-				console.log(j);
-				console.log("!!!!!!!!!!!!!!mountains[j].y : " + mountains[mountains.length - 1].y);
+				/* console.log(j);
+				console.log("!!!!!!!!!!!!!!mountains[j].y : " + mountains[mountains.length - 1].y); */
 				mountains[mountains.length - 1].z = Math.floor(mountains[mountains.length - 1].y);
 			}
 		}
 		mountains.sort((a, b) => a.z - b.z);
+		mtnRanges.forEach(range => mtnRangeShape(ctx, range));
 		mountains.forEach(mtn => mtnShape(ctx, mtn));
 
 		/* let thirdMtn = { x: 500, y: 500 };
