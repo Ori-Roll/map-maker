@@ -9,8 +9,8 @@ const mountains = [];
 
 function App() {
 	const canvas = useRef(null);
-	const mtnsAmount = 10; // APROX 1-30
-	const heightFactor = 1.2; // APROX 0-2
+	const [mtnsAmount, setMtnsAmount] = useState(10); // APROX 1-30
+	const [heightFactor, setheightFactor] = useState(1.2); // APROX 0-2
 	const mtnsHeight = mtnsAmount / 20 + heightFactor;
 
 	function makeCanvas(canvasRef) {
@@ -22,7 +22,7 @@ function App() {
 				x: Math.random() * canvasSize.width,
 				y: Math.random() * canvasSize.height,
 
-				spread: Math.random() * 160 + 40,
+				spread: Math.random() * 160 + 30, //160 40
 				key: i
 			});
 			mtnRanges[i].z = Math.floor(mtnRanges[i].y);
@@ -31,21 +31,23 @@ function App() {
 				Math.random() * mtnsHeight +
 				3;
 		}
-		console.log(mtnRanges);
+		console.log("mtnRanges", mtnRanges);
 
-		for (let j = 0; j < (canvasSize.width * canvasSize.height) / 15000; j++) {
+		for (let j = 0; j < (canvasSize.width * canvasSize.height) / 10000; j++) {
 			const proposedMtnX = Math.random() * canvasSize.width;
 			const proposedMtnY = Math.random() * canvasSize.height;
 			const pointHeight = calcPointHeight({ x: proposedMtnX, y: proposedMtnY }, mtnRanges);
+
 			const mtnProbability = pointHeight.pointGroundHeight; /* + (Math.random() + 0.2) */
 			/* console.log("mtn probability: " + mtnProbability); */
 
-			if (mtnProbability > 45) {
+			if (mtnProbability > 30) {
+				console.log("pointHeight", pointHeight.pointGroundHeight);
 				mountains.push({
 					x: proposedMtnX,
 					y: proposedMtnY,
-					height: Math.random() * 10 + 15,
-					spread: Math.random() * 40 + 30,
+					height: Math.random() * 5 + 5,
+					spread: Math.random() * 5 + 5,
 					keyOfMtnRange: pointHeight.pointIsOnMtnKey,
 					key: j
 				});

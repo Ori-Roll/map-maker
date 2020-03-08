@@ -9,11 +9,14 @@ function calcPointHeight(point, mountainsArr) {
 	mountainsArr.forEach(mtn => {
 		let pointToMtnDistance = calcObjectsDistance(point, mtn);
 		if (pointToMtnDistance < mtn.spread) {
+			console.log("valid mountain: spread is:" + mtn.spread + "height is :" + mtn.height);
+			console.log("pointToMtnDistance is:" + pointToMtnDistance);
 			let pointHeightInMtn = mtn.height * (pointToMtnDistance / mtn.spread);
 			pointGroundHeight =
 				pointHeightInMtn > pointGroundHeight ? pointHeightInMtn : pointGroundHeight;
 			pointIsOnMtnKey = pointHeightInMtn > pointGroundHeight ? mtn.key : pointIsOnMtnKey;
 		}
+		console.log("pointGroundHeight: " + pointGroundHeight);
 	});
 	return { pointGroundHeight: pointGroundHeight, pointIsOnMtnKey: pointIsOnMtnKey };
 }
