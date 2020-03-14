@@ -1,5 +1,5 @@
-import { mtnShape } from "./mountain.js";
+import { mtnShape, makeMtnArr } from "./mountains.js";
 import { treeShape } from "./tree.js";
 import { mtnRangeShape } from "./mtnRange.js";
 
-export { mtnShape, treeShape, mtnRangeShape };
+export { mtnShape, makeMtnArr, treeShape, mtnRangeShape };

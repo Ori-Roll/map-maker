@@ -9,17 +9,26 @@ function calcPointHeight(point, mountainsArr) {
 	mountainsArr.forEach(mtn => {
 		let pointToMtnDistance = calcObjectsDistance(point, mtn);
 		if (pointToMtnDistance < mtn.spread) {
-			console.log("valid mountain: spread is:" + mtn.spread + "height is :" + mtn.height);
-			console.log("pointToMtnDistance is:" + pointToMtnDistance);
-			let pointHeightInMtn = mtn.height * (pointToMtnDistance / mtn.spread);
+			let pointHeightInMtn = mtn.height * ((mtn.spread - pointToMtnDistance) / mtn.spread);
 			pointGroundHeight =
 				pointHeightInMtn > pointGroundHeight ? pointHeightInMtn : pointGroundHeight;
 			pointIsOnMtnKey = pointHeightInMtn > pointGroundHeight ? mtn.key : pointIsOnMtnKey;
 		}
-		console.log("pointGroundHeight: " + pointGroundHeight);
 	});
 	return { pointGroundHeight: pointGroundHeight, pointIsOnMtnKey: pointIsOnMtnKey };
 }
+
+export { calcObjectsDistance, calcPointHeight };
+
+/* 
+console.log("-----------valid mountain-----------");
+			console.log("height is :" + mtn.height);
+			console.log("spread is:" + mtn.spread);
+			console.log("pointToMtnDistance is:" + pointToMtnDistance); 
+
+console.log("height precent is is ", (mtn.spread - pointToMtnDistance) / mtn.spread);
+			console.log("pointHeightInMtn is ", pointHeightInMtn);
+ */
 
 /* console.log(
 	"YEA: ",
@@ -28,5 +37,3 @@ function calcPointHeight(point, mountainsArr) {
 		{ x: 20, y: 0, height: 40, spread: 40, key: 1 }
 	])
 ); */
-
-export { calcObjectsDistance, calcPointHeight };

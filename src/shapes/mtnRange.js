@@ -7,7 +7,7 @@ export function mtnRangeShape(ctx, mtnRange) {
 		mtnRange.y,
 		mtnRange.spread
 	);
-	console.log(mtnRange.spread);
+
 	grd.addColorStop(0, `rgba(55, 45, 30, ${mtnRange.height / 120})`);
 	grd.addColorStop(0.35, `rgba(55, 45, 30, ${mtnRange.height / 190})`);
 	grd.addColorStop(1, "rgba(194, 187, 153, 0)");
