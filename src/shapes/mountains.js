@@ -1,4 +1,4 @@
-import { calcPointHeight } from "../helpers";
+import { calcPointHeight, calcObjectsDistance } from "../helpers";
 
 export function makeMtnArr(canvasSize, mtnsAmount, mtnClampiness, mtnsHeight) {
 	const newMtnsArr = [];
@@ -9,12 +9,33 @@ export function makeMtnArr(canvasSize, mtnsAmount, mtnClampiness, mtnsHeight) {
 		const pointHeight = calcPointHeight({ x: proposedMtnX, y: proposedMtnY }, newMtnsArr);
 		const mtnProbability =
 			Math.random() * 10 + pointHeight.pointGroundHeight * 2 + 3000 / mtnClampiness / i;
-
-		if (mtnProbability > 40) {
+		const tooCloseToOtherMtn = (() => {
+			if (newMtnsArr[pointHeight.pointIsOnMtnKey]) {
+				/* console.log(newMtnsArr); */
+				if (
+					calcObjectsDistance(
+						{ x: proposedMtnX, y: proposedMtnY },
+						{
+							x: newMtnsArr[pointHeight.pointIsOnMtnKey].x,
+							y: newMtnsArr[pointHeight.pointIsOnMtnKey].y
+						}
+					) < 80
+				) {
+					console.log("too close");
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				console.log("its 0");
+				return false;
+			}
+		})();
+		if (mtnProbability > 40 /* && tooCloseToOtherMtn */) {
 			const newKey = i;
 			const newX = proposedMtnX;
 			const newY = proposedMtnY;
-			const newSpread = Math.floor(Math.random() * 100 + 20);
+			const newSpread = Math.floor(Math.random() * 64 + 16);
 			const newHeight = (Math.random() + 2) * mtnsHeight * (newSpread / 8) + 5; // MAKE AFFECTED BY INITIAL HEIGHT !!!
 			const newZ = Math.floor(newY);
 
@@ -36,8 +57,6 @@ export function mtnShape(ctx, mtnObj) {
 	if (typeof mtnObj !== "object") {
 		console.log("no mtnObj provided");
 	}
-
-	console.log(mtnObj.z);
 
 	let height = mtnObj.height ? mtnObj.height : 40;
 	let spread = mtnObj.spread ? mtnObj.spread : 100;
