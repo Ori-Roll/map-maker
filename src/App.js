@@ -17,7 +17,7 @@ function App() {
 		const ctx = canvasRef.current.getContext("2d");
 		mountains = makeMtnArr(canvasSize, mtnsAmount, mtnClampiness, mtnsHeight);
 		mountains.sort((a, b) => a.y - b.y);
-		mountains.forEach(mtn => mtnShape(ctx, mtn));
+		mountains.forEach((mtn) => mtnShape(ctx, mtn));
 
 		makePrecipitationMap(ctx);
 	}
@@ -27,15 +27,15 @@ function App() {
 	}, []);
 
 	function makePrecipitationMap(ctx) {
-		let pointsDistance = 8;
+		let pointsDistance = 10;
 		const pMap = [];
-		const precipitationMap = new Array(6).fill({
+		const precipitationMap = new Array(2).fill({
 			x: Math.random() * canvasSize.width,
-			y: Math.random() * canvasSize.height
+			y: Math.random() * canvasSize.height,
 		});
 		let xPos = pointsDistance / 2;
 		let yPos = pointsDistance / 2;
-		let mtnsWithBigSpread = mountains.map(item => {
+		let mtnsWithBigSpread = mountains.map((item) => {
 			return { ...item, spread: item.spread * 4, height: item.height / 2 };
 		});
 		mtnsWithBigSpread = [...mtnsWithBigSpread, ...mountains];
@@ -55,7 +55,7 @@ function App() {
 							return a > b ? a : b;
 						}),
 						position
-					) / 5000;
+					) / 700;
 				let waterBalance = precipitation;
 				/* ctx.fillStyle = `rgba(0,0,255,${precipitation / 1000}`; */
 				/* ctx.fillRect(position.x - 2, position.y - 2, 4, 4); */
@@ -64,7 +64,7 @@ function App() {
 					position: position,
 					height: height,
 					precipitation: precipitation,
-					waterBalance: waterBalance
+					waterBalance: waterBalance,
 				});
 
 				pMap[pMap.length - 1].getPointNeighbors = getPointNeighbors;
@@ -76,25 +76,25 @@ function App() {
 		function getPointNeighbors(point, pointArr) {
 			/* console.log("getPointNeighbor, pointArr is", pointArr);
 			console.log("getPointNeighbor, index", point); */
-			let aboveIndex = pointArr.findIndex(neighbor => {
+			let aboveIndex = pointArr.findIndex((neighbor) => {
 				return (
 					neighbor.position.y === point.position.y - pointsDistance &&
 					neighbor.position.x === point.position.x
 				);
 			});
-			let belowIndex = pointArr.findIndex(neighbor => {
+			let belowIndex = pointArr.findIndex((neighbor) => {
 				return (
 					neighbor.position.y === point.position.y + pointsDistance &&
 					neighbor.position.x === point.position.x
 				);
 			});
-			let onRightIndex = pointArr.findIndex(neighbor => {
+			let onRightIndex = pointArr.findIndex((neighbor) => {
 				return (
 					neighbor.position.y === point.position.y &&
 					neighbor.position.x === point.position.x + pointsDistance
 				);
 			});
-			let onLeftIndex = pointArr.findIndex(neighbor => {
+			let onLeftIndex = pointArr.findIndex((neighbor) => {
 				return (
 					neighbor.position.y === point.position.y &&
 					neighbor.position.x === point.position.x - pointsDistance
@@ -106,7 +106,7 @@ function App() {
 				onRight: pointArr[onRightIndex] ? pointArr[onRightIndex] : "none",
 				right: pointArr[onRightIndex] ? pointArr[onRightIndex] : "none",
 				onLeft: pointArr[onLeftIndex] ? pointArr[onLeftIndex] : "none",
-				left: pointArr[onLeftIndex] ? pointArr[onLeftIndex] : "none"
+				left: pointArr[onLeftIndex] ? pointArr[onLeftIndex] : "none",
 			};
 		}
 
@@ -120,15 +120,15 @@ function App() {
 			xPos = pointsDistance / 2;
 			yPos = pointsDistance / 2;
 
-			pMapByHeight.forEach(point => {
+			pMapByHeight.forEach((point) => {
 				const pointNeighbors = [
 					point.getPointNeighbors(point, pMap).above,
 					point.getPointNeighbors(point, pMap).below,
 					point.getPointNeighbors(point, pMap).right,
-					point.getPointNeighbors(point, pMap).left
+					point.getPointNeighbors(point, pMap).left,
 				];
 				let allHeightDifference = 0;
-				pointNeighbors.forEach(item => {
+				pointNeighbors.forEach((item) => {
 					if (!isNaN(item.height) && item.height < point.height) {
 						allHeightDifference += point.height - item.height;
 					}
@@ -136,7 +136,7 @@ function App() {
 				let waterParts = point.height ? point.waterBalance / allHeightDifference : 0;
 				waterParts = waterParts > 0 && waterParts < 700 ? waterParts : 1;
 
-				pointNeighbors.forEach(neighbor => {
+				pointNeighbors.forEach((neighbor) => {
 					if (neighbor !== "none" && neighbor.height <= point.height) {
 						neighbor.waterBalance += waterParts * (point.height - neighbor.height);
 						point.waterBalance -= neighbor.waterBalance / (0.4 / (point.height - neighbor.height));
@@ -148,10 +148,10 @@ function App() {
 		/* console.log(pMap); */
 		waterFlow();
 		/* console.log(pMapByHeight); */
-		pMapByHeight.forEach(point => {
+		pMapByHeight.forEach((point) => {
 			let pointColorIfOverflow = `rgba(100, 121, 140,0.8)`;
 			let pointColorIfWaterAbsorbed = `rgba(152, 168, 114,${point.waterBalance * 0.1})`;
-			let overflowThreshold = 8;
+			let overflowThreshold = 10;
 			ctx.fillStyle =
 				point.waterBalance > overflowThreshold ? pointColorIfOverflow : pointColorIfWaterAbsorbed;
 
