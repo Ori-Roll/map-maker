@@ -67,6 +67,8 @@ export function mtnShape(ctx, mtnObj) {
 	ctx.moveTo(x - spread / 2, y);
 	ctx.lineTo(x, y - height);
 	ctx.lineTo(x + spread / 2, y);
+	ctx.lineWidth = 6;
+	ctx.strokeStyle = "#968372";
 	ctx.stroke();
 	ctx.fillStyle = "#c2bb99";
 	ctx.fill();

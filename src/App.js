@@ -27,10 +27,9 @@ function App() {
 	}, []);
 
 	function makePrecipitationMap(ctx) {
-		let pointsDistance = 10;
-		let precipitationFactor = 5;
+		let pointsDistance = 8;
 		const pMap = [];
-		const precipitationMap = new Array(4).fill({
+		const precipitationMap = new Array(6).fill({
 			x: Math.random() * canvasSize.width,
 			y: Math.random() * canvasSize.height
 		});
@@ -56,7 +55,7 @@ function App() {
 							return a > b ? a : b;
 						}),
 						position
-					) / 1000;
+					) / 5000;
 				let waterBalance = precipitation;
 				/* ctx.fillStyle = `rgba(0,0,255,${precipitation / 1000}`; */
 				/* ctx.fillRect(position.x - 2, position.y - 2, 4, 4); */
@@ -135,7 +134,7 @@ function App() {
 					}
 				});
 				let waterParts = point.height ? point.waterBalance / allHeightDifference : 0;
-				waterParts = waterParts > 0 && waterParts < 800 ? waterParts : 1;
+				waterParts = waterParts > 0 && waterParts < 700 ? waterParts : 1;
 
 				pointNeighbors.forEach(neighbor => {
 					if (neighbor !== "none" && neighbor.height <= point.height) {
