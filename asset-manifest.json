@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/map-maker/static/css/main.d1b05096.chunk.css",
+    "main.js": "/map-maker/static/js/main.9b3e6a0a.chunk.js",
+    "main.js.map": "/map-maker/static/js/main.9b3e6a0a.chunk.js.map",
+    "runtime-main.js": "/map-maker/static/js/runtime-main.74247e05.js",
+    "runtime-main.js.map": "/map-maker/static/js/runtime-main.74247e05.js.map",
+    "static/js/2.4dc4ade8.chunk.js": "/map-maker/static/js/2.4dc4ade8.chunk.js",
+    "static/js/2.4dc4ade8.chunk.js.map": "/map-maker/static/js/2.4dc4ade8.chunk.js.map",
+    "index.html": "/map-maker/index.html",
+    "precache-manifest.fd172f0fad230d76819853d69e557650.js": "/map-maker/precache-manifest.fd172f0fad230d76819853d69e557650.js",
+    "service-worker.js": "/map-maker/service-worker.js",
+    "static/css/main.d1b05096.chunk.css.map": "/map-maker/static/css/main.d1b05096.chunk.css.map",
+    "static/js/2.4dc4ade8.chunk.js.LICENSE.txt": "/map-maker/static/js/2.4dc4ade8.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.74247e05.js",
+    "static/js/2.4dc4ade8.chunk.js",
+    "static/css/main.d1b05096.chunk.css",
+    "static/js/main.9b3e6a0a.chunk.js"
+  ]
+}
